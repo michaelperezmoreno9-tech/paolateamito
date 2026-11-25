@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para Paola</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--noche:#160c1f;--tinta:#261433;--rojo:#d62839;--rosa:#ff7b8a;--oro:#ffe9b0;--texto:#f9eef0;--suave:#c9b3c0;--r:18px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--noche);color:var(--texto);font:400 1.05rem/1.7 Nunito,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:400;line-height:1.15}
+h2{font-size:clamp(1.8rem,5vw,2.6rem);margin-bottom:.4em;color:var(--oro)}
+section{max-width:760px;margin:0 auto;padding:4.5rem 1.4rem}
+.sub{color:var(--suave);margin-bottom:1.6rem}
+button,.btn{font:600 1rem Nunito,sans-serif;background:var(--rojo);color:#fff;border:0;border-radius:999px;padding:.8em 1.6em;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{filter:brightness(1.12)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+button.ghost{background:transparent;color:var(--rosa);border:2px solid var(--rosa)}
+button:disabled{opacity:.5;cursor:default}
+#cielo{position:fixed;inset:0;z-index:-1}
+.caja,.sobre,.nota,.juego{background:var(--tinta);border-radius:var(--r);padding:1.6rem;border:1px solid #ffffff1a}
+/* puerta */
+#puerta{position:fixed;inset:0;z-index:10000;background:var(--noche);display:grid;place-items:center;padding:1.4rem;text-align:center}
+#puerta form{display:grid;gap:1rem;max-width:340px;width:100%}
+#puerta h1{font-size:2.4rem;font-style:italic;color:var(--rosa)}
+input{font:inherit;padding:.8em 1em;border-radius:12px;border:2px solid #ffffff33;background:#ffffff10;color:var(--texto);text-align:center;width:100%}
+#err{color:var(--rosa);min-height:1.6em}
+/* hero */
+#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:1rem}
+#hero h1{font-size:clamp(3rem,13vw,6.5rem);font-style:italic;color:var(--rosa)}
+#portada{width:170px;height:170px;border-radius:50%;object-fit:cover;border:4px solid var(--rojo)}
+#hero p{color:var(--suave);max-width:28ch}
+#contador{font-family:Fraunces,serif;color:var(--oro);font-size:1.15rem;min-height:1.7em}
+/* carta */
+.sobre{text-align:center}
+.carta{display:none;font-family:Caveat,cursive;font-size:1.6rem;line-height:1.5;color:#3a1f2b;background:#fff8f0;border-radius:12px;padding:1.8rem 1.6rem;text-align:left;white-space:pre-line;transform-origin:top;margin-top:1.4rem}
+.carta.abierta{display:block;animation:desplegar .7s ease-out}
+@keyframes desplegar{from{opacity:0;transform:scaleY(.2)}to{opacity:1;transform:none}}
+/* historia */
+.linea{border-left:2px solid var(--rosa);padding-left:1.4rem;display:grid;gap:1.4rem}
+.hito{position:relative}
+.hito::before{content:"";position:absolute;left:calc(-1.4rem - 7px);top:.55em;width:12px;height:12px;border-radius:50%;background:var(--rojo)}
+.hito b{font-family:Fraunces,serif;font-weight:600;color:var(--oro)}
+.hito span{display:block;color:var(--suave);font-size:.9rem}
+/* fotos */
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.7rem}
+.foto{aspect-ratio:1;border-radius:var(--r);overflow:hidden;background:linear-gradient(135deg,#5a1a35,#8a2a3e);border:0;padding:0;cursor:pointer}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.foto:nth-child(3n+2){border-radius:50% 50% var(--r) var(--r)}
+#visor,#modal{position:fixed;inset:0;background:#000d;display:none;place-items:center;z-index:9999;padding:1rem}
+#visor.on,#modal.on{display:grid}
+#visor img{max-width:100%;max-height:88svh;border-radius:12px}
+#modal .caja{max-width:440px;text-align:center;display:grid;gap:1rem}
+#modal h3{color:var(--oro);font-size:1.5rem}
+#mm{white-space:pre-line;font-family:Caveat,cursive;font-size:1.5rem;line-height:1.4}
+video,audio{width:100%;border-radius:var(--r)}
+video{background:#000}
+.nota{display:grid;gap:1rem}
+/* musica */
+.pista{display:block;width:100%;text-align:left;background:#ffffff10;color:var(--texto);border:1px solid #ffffff22;border-radius:12px;margin:.5rem 0;padding:.8em 1em}
+.pista.sonando{background:var(--rojo);border-color:var(--rosa)}
+.pista small{display:block;color:inherit;opacity:.75}
+/* quiz */
+.op{display:block;width:100%;text-align:left;background:#ffffff10;color:var(--texto);border:1px solid #ffffff22;margin:.5rem 0;border-radius:12px;padding:.8em 1em}
+.op.ok{background:#2f7a55;border-color:#5fd39a}
+.op.mal{background:#7a2f48;border-color:var(--rosa)}
+.prog{color:var(--suave);font-size:.9rem;margin-bottom:.5rem}
+#razon{font-family:Fraunces,serif;font-style:italic;font-size:1.5rem;min-height:4.5em;display:flex;align-items:center;justify-content:center;text-align:center;margin:1rem 0}
+/* abre cuando */
+.cartas{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.8rem}
+.cartas button{background:var(--tinta);border:1px solid var(--rosa);color:var(--texto);border-radius:var(--r);padding:1.2rem 1rem;text-align:left;font-family:Fraunces,serif;font-size:1.1rem}
+.cartas button::before{content:"💌 ";}
+/* mapa */
+#mapa{height:420px;border-radius:var(--r);z-index:0;border:1px solid #ffffff22}
+.pin{font-size:28px;line-height:1;filter:drop-shadow(0 2px 2px #0009);text-align:center}
+.lugares{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.lugares button{padding:.5em 1em;font-size:.9rem}
+.leaflet-popup-content{font:400 1rem/1.4 Nunito,sans-serif;color:#2a1620}
+/* propuesta */
+#pregunta{position:relative;min-height:170px;display:flex;gap:1.2rem;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:1rem}
+#si{font-size:1.2rem;transition:transform .2s}
+#pista{color:var(--rosa);text-align:center;min-height:1.7em}
+#resp{font-family:Fraunces,serif;font-style:italic;font-size:1.6rem;text-align:center;color:var(--oro)}
+.cae{position:fixed;top:-3rem;z-index:9998;pointer-events:none;animation:cae linear forwards}
+@keyframes cae{to{transform:translateY(112vh) rotate(360deg)}}
+footer{text-align:center;padding:4rem 1rem 6rem;font-family:Fraunces,serif;font-style:italic;font-size:1.5rem;color:var(--rosa)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<canvas id="cielo" aria-hidden="true"></canvas>
+
+<div id="puerta">
+  <form id="formClave" autocomplete="off">
+    <h1>Para Paola</h1>
+    <p class="sub" style="margin:0">Escribe la fecha en que empezó todo (día/mes/año).</p>
+    <input id="clave" inputmode="numeric" placeholder="dd/mm/aaaa" aria-label="Fecha de aniversario">
+    <div id="err" aria-live="polite"></div>
+    <button type="submit">Entrar</button>
+  </form>
+</div>
+
+<main id="app" hidden>
+<section id="hero">
+  <img id="portada" src="fotos/portada.jpg" alt="Paola y yo">
+  <h1 id="tituloHero">Paola</h1>
+  <p>Hice esto solo para ti. Tómate tu tiempo.</p>
+  <div id="contador"></div>
+  <a class="btn" href="#carta">Empezar</a>
+</section>
+
+<section id="carta">
+  <h2>Una carta</h2>
+  <p class="sub">Toca el sobre para abrirlo.</p>
+  <div class="sobre">
+    <button id="btnCarta">Abrir sobre</button>
+    <div class="carta" id="textoCarta"></div>
+  </div>
+</section>
+
+<section id="historia">
+  <h2>Nuestra historia</h2>
+  <p class="sub">Los momentos que no quiero olvidar.</p>
+  <div class="linea" id="hitos"></div>
+</section>
+
+<section id="fotos">
+  <h2>Nosotros</h2>
+  <p class="sub">Toca una foto para verla grande.</p>
+  <div class="galeria" id="galeria"></div>
+</section>
+
+<section id="video">
+  <h2>Nuestro video</h2>
+  <p class="sub">Dale play.</p>
+  <video controls playsinline preload="metadata" src="video/nosotros.mp4"></video>
+</section>
+
+<section id="musica">
+  <h2>Nuestras canciones</h2>
+  <p class="sub">Elige una y déjala sonar mientras recorres la página.</p>
+  <div id="pistas"></div>
+  <audio id="reproductor" controls preload="none"></audio>
+  <p id="errMus" class="sub" style="margin-top:.6rem"></p>
+</section>
+
+<section id="mapaSec">
+  <h2>Los lugares de nosotros</h2>
+  <p class="sub">Cada corazón es una cita que no se me olvida. Tócalos.</p>
+  <div id="mapa"></div>
+  <div class="lugares" id="listaLugares"></div>
+</section>
+
+<section id="abre">
+  <h2>Abre cuando...</h2>
+  <p class="sub">Una carta para cada momento. Ábrelas cuando toque.</p>
+  <div class="cartas" id="cartas"></div>
+</section>
+
+<section id="juego">
+  <h2>¿Qué tanto nos conoces?</h2>
+  <p class="sub">Cinco preguntas sobre nosotros. Sin trampa.</p>
+  <div class="juego" id="quiz"></div>
+</section>
+
+<section id="razones">
+  <h2>Razones por las que te quiero</h2>
+  <p class="sub">Hay más de las que caben aquí, pero empecemos.</p>
+  <div id="razon" aria-live="polite">Toca el botón.</div>
+  <button id="btnRazon">Dime una razón</button>
+</section>
+
+<section id="voz">
+  <h2>Notas de voz</h2>
+  <p class="sub">Tengo algo que decirte. Y tú puedes responderme.</p>
+  <div class="nota">
+    <strong>De mí para ti</strong>
+    <audio controls preload="metadata" src="audio/nota.mp3"></audio>
+  </div>
+  <div class="nota" style="margin-top:1rem">
+    <strong>De ti para mí</strong>
+    <p class="sub" style="margin:0">Graba tu mensaje, escúchalo y descárgalo para enviármelo.</p>
+    <div style="display:flex;gap:.7rem;flex-wrap:wrap">
+      <button id="grabar">Grabar</button>
+      <button id="parar" class="ghost" disabled>Detener</button>
+    </div>
+    <audio id="previo" controls hidden></audio>
+    <a id="bajar" class="btn" hidden download="nota-de-paola.webm">Descargar mi nota</a>
+    <p id="estadoVoz" class="sub" style="margin:0"></p>
+  </div>
+</section>
+
+<section id="propuesta">
+  <h2>Una última cosa</h2>
+  <p class="sub">Llegaste hasta aquí. Falta una pregunta.</p>
+  <div style="text-align:center"><button id="btnPreg">Ver la pregunta</button></div>
+  <div id="bloquePreg" hidden>
+    <h2 style="text-align:center;color:var(--texto);margin-top:1rem" id="textoPreg"></h2>
+    <div id="pregunta">
+      <button id="si">Sí</button>
+      <button id="no" class="ghost">No</button>
+    </div>
+    <p id="pista"></p>
+    <p id="resp" hidden></p>
+  </div>
+</section>
+
+<footer id="final"></footer>
+</main>
+
+<div id="visor" role="dialog" aria-label="Foto ampliada"><img alt=""></div>
+<div id="modal" role="dialog" aria-modal="true"><div class="caja"><h3 id="mt"></h3><p id="mm"></p><button id="cerrar">Cerrar</button></div></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+/* ====== EDITA AQUÍ ====== */
+const CONFIG = {
+  nombre: "Paola",
+  clave: [5, 4, 2025],                  // día, mes, año del aniversario
+  inicio: "2025-04-05T00:00:00",
+  carta: `Mi Paola:
+
+Escribe aquí tu carta. Cuéntale cómo te sientes, qué te hizo quererla, qué sueñas con ella.
+
+Los saltos de línea se respetan tal cual.
+
+Con todo mi cariño,
+Tu nombre`,
+  hitos: [
+    ["Empezamos", "5 de abril de 2025", "El día en que todo cambió."],
+    ["Nuestra primera cita", "Fecha y lugar", "Qué pasó, qué comimos, de qué nos reímos."],
+    ["Cuando supe que te quería", "Fecha y lugar", "El momento exacto, si lo recuerdas."]
+  ],
+  fotos: ["fotos/1.jpg","fotos/2.jpg","fotos/3.jpg","fotos/4.jpg","fotos/5.jpg","fotos/6.jpg"],
+  musica: [
+    {t:"Patadas de ahogado", a:"Latin Mafia", src:"musica/1.mp3"},
+    {t:"Mil vidas", a:"Sebastián Romero", src:"musica/2.mp3"},
+    {t:"Yo te amé", a:"Kelvis Ochoa", src:"musica/3.mp3"}
+  ],
+  /* Ejemplos: cámbialos por tus lugares. Para sacar lat/lng entra a la web con #editor al final de la URL y toca el mapa. */
+  lugares: [
+    {n:"Malecón", lat:23.1456, lng:-82.3563, t:"Cuenta aquí qué pasó en esta cita."},
+    {n:"Plaza Vieja", lat:23.1360, lng:-82.3510, t:"Cuenta aquí qué pasó en esta cita."},
+    {n:"Capitolio", lat:23.1352, lng:-82.3598, t:"Cuenta aquí qué pasó en esta cita."}
+  ],
+  abre: [
+    ["Abre cuando me extrañes", "Cierra los ojos y piensa en nuestro último abrazo. Yo estoy pensando en el mismo.\n\nEscribe aquí tu mensaje."],
+    ["Abre cuando estés triste", "Todo pasa, y yo me quedo. Escribe aquí lo que quieras decirle."],
+    ["Abre cuando quieras reírte", "Acuérdate de aquella vez que... (cuenta aquí algo que los haga reír a los dos)."],
+    ["Abre cuando no puedas dormir", "Cuéntale al techo lo que sea, pero antes lee esto. Escribe aquí tu mensaje."],
+    ["Abre cuando dudes de ti", "Eres más de lo que ves. Escribe aquí por qué lo crees."],
+    ["Abre cuando quieras un abrazo", "Te mando uno ahora mismo. Escribe aquí cuándo es el próximo."]
+  ],
+  quiz: [
+    {p:"¿Cuál es tu color favorito?", o:["Azul","Rojo","Verde"], c:1},
+    {p:"¿Qué animal te enamora más?", o:["Gatos","Caballos","Perros"], c:2},
+    {p:"¿Cuáles son tus flores favoritas?", o:["Girasoles","Rosas y margaritas blancas","Tulipanes"], c:1},
+    {p:"¿Qué día empezó todo?", o:["5 de abril de 2025","14 de febrero de 2025","1 de enero de 2025"], c:0},
+    {p:"¿Cuánto te quiero?", o:["Un poquito","Bastante","Más de lo que cabe en esta página"], c:2}
+  ],
+  razones: [
+    "Tu risa.",
+    "Cómo me haces sentir en casa.",
+    "Tu cariño con los animales, sobre todo con los perritos.",
+    "Porque contigo hasta lo simple es divertido.",
+    "Escribe aquí tus propias razones."
+  ],
+  pregunta: "Paola, ¿quieres casarte conmigo?",
+  si: "Lo sabía. Ahora somos tú, yo y un perrito. 🌹",
+  final: "Gracias por ser tú."
+};
+/* ========================= */
+
+const $ = s => document.querySelector(s);
+const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
+document.title = "Para " + CONFIG.nombre;
+$("#tituloHero").textContent = CONFIG.nombre;
+$("#final").textContent = CONFIG.final;
+$("#portada").onerror = e => e.target.remove();
+
+/* cielo */
+(function(){
+  const c = $("#cielo"), x = c.getContext("2d"); let est = [];
+  function ajustar(){c.width=innerWidth;c.height=innerHeight;est=Array.from({length:80},()=>({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+.3,f:Math.random()*6}));pintar(0)}
+  function pintar(t){x.clearRect(0,0,c.width,c.height);est.forEach(e=>{x.globalAlpha=.35+.5*Math.abs(Math.sin(e.f+t/1800));x.fillStyle="#ffd9de";x.beginPath();x.arc(e.x,e.y,e.r,0,7);x.fill()})}
+  addEventListener("resize",ajustar);ajustar();
+  if(!reduce){(function bucle(t){pintar(t);requestAnimationFrame(bucle)})(0)}
+})();
+
+/* puerta */
+$("#formClave").onsubmit = e => {
+  e.preventDefault();
+  const v = $("#clave").value.trim(), n = (v.match(/\d+/g) || []).map(Number);
+  let f = n;
+  if(n.length === 1 && v.replace(/\D/g,"").length === 8){const s=v.replace(/\D/g,"");f=[+s.slice(0,2),+s.slice(2,4),+s.slice(4)]}
+  if(f.length === 3 && f.every((k,i)=>k===CONFIG.clave[i])){
+    $("#puerta").remove(); $("#app").hidden = false; iniMapa(); contar();
+  } else {
+    $("#err").textContent = "Esa no es. Piensa en el día que empezó todo.";
+  }
+};
+
+/* contador */
+function contar(){
+  const d = Math.max(0, Date.now() - new Date(CONFIG.inicio).getTime());
+  $("#contador").textContent = `${Math.floor(d/864e5)} días, ${Math.floor(d/36e5)%24} h y ${Math.floor(d/6e4)%60} min juntos`;
+}
+setInterval(contar, 30000);
+
+/* carta */
+$("#textoCarta").textContent = CONFIG.carta;
+$("#btnCarta").onclick = e => { $("#textoCarta").classList.add("abierta"); e.target.hidden = true };
+
+/* historia */
+CONFIG.hitos.forEach(([t,f,d]) => {
+  const el = document.createElement("div"); el.className = "hito";
+  el.innerHTML = "<b></b><span></span><p></p>";
+  el.children[0].textContent = t; el.children[1].textContent = f; el.children[2].textContent = d;
+  $("#hitos").append(el);
+});
+
+/* fotos */
+CONFIG.fotos.forEach(src => {
+  const b = document.createElement("button");
+  b.className = "foto"; b.setAttribute("aria-label","Ver foto");
+  const im = new Image(); im.loading = "lazy"; im.alt = "Foto de nosotros"; im.src = src;
+  im.onerror = () => b.remove();
+  b.append(im);
+  b.onclick = () => { $("#visor img").src = src; $("#visor").classList.add("on") };
+  $("#galeria").append(b);
+});
+$("#visor").onclick = () => $("#visor").classList.remove("on");
+
+/* modal */
+function abrirModal(t,m){ $("#mt").textContent=t; $("#mm").textContent=m; $("#modal").classList.add("on"); $("#cerrar").focus() }
+$("#cerrar").onclick = () => $("#modal").classList.remove("on");
+addEventListener("keydown", e => { if(e.key==="Escape"){ $("#visor").classList.remove("on"); $("#modal").classList.remove("on") } });
+
+/* musica */
+(function(){
+  const rep = $("#reproductor"); let actual = -1;
+  const btns = CONFIG.musica.map((p,i) => {
+    const b = document.createElement("button"); b.className = "pista";
+    b.innerHTML = "<span></span><small></small>";
+    b.children[0].textContent = p.t; b.children[1].textContent = p.a;
+    b.onclick = () => tocar(i);
+    $("#pistas").append(b); return b;
+  });
+  function tocar(i){
+    actual = i; $("#errMus").textContent = "";
+    btns.forEach((b,k)=>b.classList.toggle("sonando",k===i));
+    rep.src = CONFIG.musica[i].src; rep.play().catch(()=>{});
+  }
+  rep.onended = () => tocar((actual+1) % CONFIG.musica.length);
+  rep.onerror = () => { if(actual>=0) $("#errMus").textContent = "No encuentro el archivo " + CONFIG.musica[actual].src };
+})();
+
+/* mapa */
+function iniMapa(){
+  const mapa = L.map("mapa").setView([23.1380,-82.3590], 13);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(mapa);
+  CONFIG.lugares.forEach(l => {
+    const m = L.marker([l.lat,l.lng],{icon:L.divIcon({className:"pin",html:"❤️",iconSize:[30,30],iconAnchor:[15,28],popupAnchor:[0,-26]})}).addTo(mapa);
+    const d = document.createElement("div"), h = document.createElement("strong"), p = document.createElement("p");
+    h.textContent = l.n; p.textContent = l.t; d.append(h,p); m.bindPopup(d);
+    const b = document.createElement("button"); b.className = "ghost"; b.textContent = l.n;
+    b.onclick = () => { $("#mapa").scrollIntoView({block:"center"}); mapa.flyTo([l.lat,l.lng],16); m.openPopup() };
+    $("#listaLugares").append(b);
+  });
+  if(location.hash === "#editor"){
+    mapa.on("click", e => L.popup().setLatLng(e.latlng).setContent(e.latlng.lat.toFixed(4)+", "+e.latlng.lng.toFixed(4)).openOn(mapa));
+  }
+  setTimeout(()=>mapa.invalidateSize(),200);
+}
+
+/* abre cuando */
+CONFIG.abre.forEach(([t,m]) => {
+  const b = document.createElement("button"); b.textContent = t; b.onclick = () => abrirModal(t,m);
+  $("#cartas").append(b);
+});
+
+/* minijuego */
+(function(){
+  const box = $("#quiz"); let i = 0, pts = 0;
+  function mostrar(){
+    if(i >= CONFIG.quiz.length){
+      const n = CONFIG.quiz.length;
+      box.innerHTML = `<h3 style="font-size:1.6rem"></h3><p class="sub"></p><button>Jugar otra vez</button>`;
+      box.querySelector("h3").textContent = `${pts} de ${n}`;
+      box.querySelector("p").textContent = pts===n ? "Perfecto. Me conoces mejor que nadie." : "Nada mal. Tenemos mucho por vivir todavía.";
+      box.querySelector("button").onclick = () => { i=0; pts=0; mostrar() };
+      return;
+    }
+    const q = CONFIG.quiz[i];
+    box.innerHTML = `<div class="prog">Pregunta ${i+1} de ${CONFIG.quiz.length}</div><h3 style="font-size:1.4rem"></h3>`;
+    box.querySelector("h3").textContent = q.p;
+    q.o.forEach((t,k) => {
+      const b = document.createElement("button"); b.className = "op"; b.textContent = t;
+      b.onclick = () => {
+        box.querySelectorAll(".op").forEach((x,j)=>{x.disabled=true; if(j===q.c)x.classList.add("ok")});
+        if(k===q.c) pts++; else b.classList.add("mal");
+        setTimeout(()=>{i++;mostrar()},1100);
+      };
+      box.append(b);
+    });
+  }
+  mostrar();
+})();
+
+/* razones */
+  (function(){
+  let bolsa = [];
+  $("#btnRazon").onclick = () => {
+    if(!bolsa.length) bolsa = [...CONFIG.razones].sort(()=>Math.random()-.5);
+    $("#razon").textContent = bolsa.pop();
+  };
+})();
+
+/* nota de voz de ella */
+(function(){
+  let rec, trozos = []; const est = $("#estadoVoz");
+  $("#grabar").onclick = async () => {
+    try{
+      const flujo = await navigator.mediaDevices.getUserMedia({audio:true});
+      rec = new MediaRecorder(flujo); trozos = [];
+      rec.ondataavailable = e => trozos.push(e.data);
+      rec.onstop = () => {
+        flujo.getTracks().forEach(t=>t.stop());
+        const url = URL.createObjectURL(new Blob(trozos,{type:rec.mimeType||"audio/webm"}));
+        $("#previo").src = url; $("#previo").hidden = false;
+        $("#bajar").href = url; $("#bajar").hidden = false;
+        est.textContent = "Listo. Escúchala y descárgala para mandármela.";
+      };
+      rec.start(); $("#grabar").disabled = true; $("#parar").disabled = false; est.textContent = "Grabando...";
+    }catch(err){ est.textContent = "No pude usar el micrófono. Revisa el permiso del navegador." }
+  };
+  $("#parar").onclick = () => { rec.stop(); $("#grabar").disabled=false; $("#parar").disabled=true };
+})();
+
+/* propuesta */
+(function(){
+  const no = $("#no"), si = $("#si"), pre = $("#pregunta"); let intentos = 0;
+  $("#textoPreg").textContent = CONFIG.pregunta;
+  $("#btnPreg").onclick = e => { e.target.hidden = true; $("#bloquePreg").hidden = false };
+  function huir(){
+    intentos++;
+    no.style.position = "absolute";
+    no.style.left = Math.random()*(pre.clientWidth-no.offsetWidth) + "px";
+    no.style.top = Math.random()*(pre.clientHeight-no.offsetHeight) + "px";
+    si.style.transform = `scale(${1+Math.min(intentos,8)*.12})`;
+    if(intentos >= 5) $("#pista").textContent = "Ya, di que sí. Hasta el perrito está de acuerdo 🐶";
+  }
+  no.addEventListener("pointerenter", huir); no.addEventListener("click", huir);
+  si.onclick = () => {
+    pre.hidden = true; $("#pista").hidden = true;
+    $("#resp").textContent = CONFIG.si; $("#resp").hidden = false;
+    if(reduce) return;
+    const em = ["🌹","🌼","🐶","❤️"];
+    for(let i=0;i<46;i++){
+      const s = document.createElement("span"); s.className = "cae"; s.textContent = em[i%4];
+      s.style.cssText = `left:${Math.random()*100}vw;animation-duration:${3+Math.random()*3}s;animation-delay:${Math.random()*1.5}s;font-size:${18+Math.random()*20}px`;
+      document.body.append(s); setTimeout(()=>s.remove(),8000);
+    }
+  };
+})();
+</script>
+</body>
+</html>
+
