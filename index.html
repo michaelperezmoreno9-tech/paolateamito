@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Para Paola</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;1,400&family=Caveat:wght@500&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+:root{--noche:#160c1f;--tinta:#261433;--rojo:#d62839;--rosa:#ff7b8a;--oro:#ffe9b0;--texto:#f9eef0;--suave:#c9b3c0;--r:18px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--noche);color:var(--texto);font:400 1.05rem/1.7 Nunito,system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:400;line-height:1.15}
+h2{font-size:clamp(1.8rem,5vw,2.6rem);margin-bottom:.4em;color:var(--oro)}
+section{max-width:760px;margin:0 auto;padding:4.5rem 1.4rem}
+.sub{color:var(--suave);margin-bottom:1.6rem}
+button,.btn{font:600 1rem Nunito,sans-serif;background:var(--rojo);color:#fff;border:0;border-radius:999px;padding:.8em 1.6em;cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{filter:brightness(1.12)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--oro);outline-offset:3px}
+button.ghost{background:transparent;color:var(--rosa);border:2px solid var(--rosa)}
+button:disabled{opacity:.5;cursor:default}
+#cielo{position:fixed;inset:0;z-index:-1}
+.caja,.sobre,.nota,.juego{background:var(--tinta);border-radius:var(--r);padding:1.6rem;border:1px solid #ffffff1a}
+/* puerta */
+#puerta{position:fixed;inset:0;z-index:10000;background:var(--noche);display:grid;place-items:center;padding:1.4rem;text-align:center}
+#puerta form{display:grid;gap:1rem;max-width:340px;width:100%}
+#puerta h1{font-size:2.4rem;font-style:italic;color:var(--rosa)}
+input{font:inherit;padding:.8em 1em;border-radius:12px;border:2px solid #ffffff33;background:#ffffff10;color:var(--texto);text-align:center;width:100%}
+#err{color:var(--rosa);min-height:1.6em}
+/* hero */
+#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:1rem}
+#hero h1{font-size:clamp(3rem,13vw,6.5rem);font-style:italic;color:var(--rosa)}
+#portada{width:170px;height:170px;border-radius:50%;object-fit:cover;border:4px solid var(--rojo)}
+#hero p{color:var(--suave);max-width:28ch}
+#contador{font-family:Fraunces,serif;color:var(--oro);font-size:1.15rem;min-height:1.7em}
+/* carta */
+.sobre{text-align:center}
