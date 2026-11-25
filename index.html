@@ -219,9 +219,11 @@ footer{text-align:center;padding:4rem 1rem 6rem;font-family:Fraunces,serif;font-
 /* ====== EDITA AQUÍ ====== */
 const CONFIG = {
   nombre: "Paola",
+  titulo: "princesita💕",
   clave: [5, 4, 2025],                  // día, mes, año del aniversario
   inicio: "2025-04-05T00:00:00",
   carta: `Mi princesita:
+
 Sabes a la perfección lo mucho que significas para mí y lo importante que eres en mi vida, eres IRREMPLAZABLE, 
 en mayúsculas para que se note bien, no me puedo imaginar a otra persona a mi lado, nadie puede ocupar ese lugar
 que no seas tú, cualquiera diría: brother obvia eso, ya sigue cn tu vida y plp, pero ese cualquiera, no entiende 
@@ -230,11 +232,11 @@ por otras cositas sabes), no tiene ni la más remota idea de quien es Paola. Cua
 movería el mundo y más por que te quedes y si es necesario eso haré, vale totalmente la pena luchar por ti todos 
 los días, hacerte sentir la mujer más feliz del mundo, y lo siento si no lo he logrado, de verdad, mi principal 
 objetivo es ese, y no voy a parar hasta lograrlo, te amo con la vida, de aquí al infinito mi cagona
-Te quiere (porque segun tu querer>amar), tu pututi💕
-,
+
+Te quiere (porque segun tu querer>amar), tu pututi💕`,
   hitos: [
     ["Empezamos", "5 de abril de 2025", "El día en que todo cambió."],
-    ["Nuestra primera cita", "Ese dia en el maleconcito de Cojimar", "Imposible olvidar de como en l aprimera cita vemos una nave espacial despingarse, ABSOLUTE CINEMA, y ese besito que te logré robar, jejeje"],
+    ["Nuestra primera cita", "Ese dia en el maleconcito de Cojimar", "Imposible olvidar de como en l aprimera cita vemos una nave espacial despingarse, ABSOLUTE CINEMA, y ese besito que te logré robar, jejeje"]
   ],
   fotos: ["fotos/1.jpg","fotos/2.jpg","fotos/3.jpg","fotos/4.jpg","fotos/5.jpg","fotos/6.jpg"],
   musica: [
@@ -242,7 +244,7 @@ Te quiere (porque segun tu querer>amar), tu pututi💕
     {t:"Mil vidas", a:"Sebastián Romero", src:"musica/2.mp3"},
     {t:"Yo te amé", a:"Kelvis Ochoa", src:"musica/3.mp3"}
   ],
-  /* Ejemplos: cámbialos por tus lugares. Para sacar lat/lng entra a la web con #editor al final de la URL y toca el mapa. */
+  /* Para sacar lat/lng entra a la web con #editor al final de la URL y toca el mapa. */
   lugares: [
     {n:"Monte Freddo", lat:23.1356, lng:-82.3807, t:"En un mapa de las mejores citas, no puede faltar Monte Freddo, ya eso no es una cita, es una religión."},
     {n:"Hotel Nacional", lat:23.1439, lng:-82.3796, t:"Otro lugar al que entramos y nos dicen bienvenidos a casa, ver delfines en una cita que no era cita, destinados oara toda la vida miamorrr."},
@@ -278,7 +280,7 @@ Te quiere (porque segun tu querer>amar), tu pututi💕
 const $ = s => document.querySelector(s);
 const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
 document.title = "Para " + CONFIG.nombre;
-$("#tituloHero").textContent = CONFIG.nombre;
+$("#tituloHero").textContent = CONFIG.titulo || CONFIG.nombre;
 $("#final").textContent = CONFIG.final;
 $("#portada").onerror = e => e.target.remove();
 
@@ -312,7 +314,7 @@ function contar(){
 setInterval(contar, 30000);
 
 /* carta */
-$("#textoCarta").textContent = CONFIG.carta;
+$("#textoCarta").textContent = CONFIG.carta.replace(/([^\n])\n(?!\n)/g, "$1 ");
 $("#btnCarta").onclick = e => { $("#textoCarta").classList.add("abierta"); e.target.hidden = true };
 
 /* historia */
@@ -412,7 +414,7 @@ CONFIG.abre.forEach(([t,m]) => {
 })();
 
 /* razones */
-  (function(){
+(function(){
   let bolsa = [];
   $("#btnRazon").onclick = () => {
     if(!bolsa.length) bolsa = [...CONFIG.razones].sort(()=>Math.random()-.5);
@@ -470,4 +472,3 @@ CONFIG.abre.forEach(([t,m]) => {
 </script>
 </body>
 </html>
-
