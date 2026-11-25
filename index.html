@@ -162,7 +162,7 @@ footer{text-align:center;padding:4rem 1rem 6rem;font-family:Fraunces,serif;font-
 
 <section id="juego">
   <h2>¿Qué tanto nos conoces?</h2>
-  <p class="sub">Cinco preguntas sobre nosotros. Sin trampa.</p>
+  <p class="sub">Seis preguntas sobre nosotros. Sin trampa.</p>
   <div class="juego" id="quiz"></div>
 </section>
 
@@ -224,19 +224,23 @@ const CONFIG = {
   inicio: "2025-04-05T00:00:00",
   carta: `Mi princesita:
 
-Sabes a la perfección lo mucho que significas para mí y lo importante que eres en mi vida, eres IRREMPLAZABLE, 
+Sabes a la perfección lo mucho que significas para mí y lo importante que eres en mi vida, eres IRREMPLAZABLE,
 en mayúsculas para que se note bien, no me puedo imaginar a otra persona a mi lado, nadie puede ocupar ese lugar
-que no seas tú, cualquiera diría: brother obvia eso, ya sigue cn tu vida y plp, pero ese cualquiera, no entiende 
-todo lo que yo tengo contigo, no sabe lo especial que eres (no solo hablo de tu retraso, también eres especial 
-por otras cositas sabes), no tiene ni la más remota idea de quien es Paola. Cualquiera que estuviera en mi posición 
-movería el mundo y más por que te quedes y si es necesario eso haré, vale totalmente la pena luchar por ti todos 
-los días, hacerte sentir la mujer más feliz del mundo, y lo siento si no lo he logrado, de verdad, mi principal 
-objetivo es ese, y no voy a parar hasta lograrlo, te amo con la vida, de aquí al infinito mi cagona
+que no seas tú, cualquiera diría: brother, obvia eso, ya sigue con tu vida y plp, pero ese cualquiera no entiende
+todo lo que yo tengo contigo, no sabe lo especial que eres (no solo hablo de tu retraso, también eres especial
+por otras cositas, sabes), no tiene ni la más remota idea de quién es Paola. Cualquiera que estuviera en mi posición
+movería el mundo, y más por que te quedes, y si es necesario eso haré, vale totalmente la pena luchar por ti todos
+los días, hacerte sentir la mujer más feliz del mundo, y lo siento si no lo he logrado, de verdad, mi principal
+objetivo es ese, y no voy a parar hasta lograrlo, te amo con la vida, de aquí al infinito, mi cagona.
 
-Te quiere (porque segun tu querer>amar), tu pututi💕`,
+Te quiere (porque según tu querer>amar), tu pututi💕`,
   hitos: [
     ["Empezamos", "5 de abril de 2025", "El día en que todo cambió."],
-    ["Nuestra primera cita", "Ese dia en el maleconcito de Cojimar", "Imposible olvidar de como en l aprimera cita vemos una nave espacial despingarse, ABSOLUTE CINEMA, y ese besito que te logré robar, jejeje"]
+    ["Nuestra primera cita", "Ese día en el maleconcito de Cojímar", "Imposible olvidar cómo en la primera cita vimos una nave espacial despingarse, ABSOLUTE CINEMA, y ese besito que te logré robar, jejeje."],
+    ["Mi primera vez en tu casa, solos", "En casa de Paola", "Dios mío, ese día. La descaradita esta me metió para su cuarto e hizo conmigo lo que le dio la gana. Estudiar ni estudiar."],
+    ["Nuestra primera vez", "En mi casa", "¿Recuerdas nuestra primera vez? Te preparé una cenita romántica, con velas y una pizzita. Los dos estábamos nerviosos, fula, pero dioooos mío santo, padre, perdóname, pero qué clase de jeva."],
+    ["Nuestro primer día en la playa, solitos", "En Bacuranao", "No te llevé a Varadero, pero no hacía falta: con estar los dos solos en la playita, para mí eso es mejor que Varadero. Yo sé que para ti no. Cuando saque la licencia de moto, el primer viaje es para Varadero, que sé que te encanta 🤣💕"],
+    ["Y lo que viene", "Desde hoy y para siempre", "Más historias creándose. Seguimos juntos escribiendo nuestra historia, día a día."]
   ],
   fotos: ["fotos/1.jpg","fotos/2.jpg","fotos/3.jpg","fotos/4.jpg","fotos/5.jpg","fotos/6.jpg"],
   musica: [
@@ -246,22 +250,23 @@ Te quiere (porque segun tu querer>amar), tu pututi💕`,
   ],
   /* Para sacar lat/lng entra a la web con #editor al final de la URL y toca el mapa. */
   lugares: [
-    {n:"Monte Freddo", lat:23.1356, lng:-82.3807, t:"En un mapa de las mejores citas, no puede faltar Monte Freddo, ya eso no es una cita, es una religión."},
-    {n:"Hotel Nacional", lat:23.1439, lng:-82.3796, t:"Otro lugar al que entramos y nos dicen bienvenidos a casa, ver delfines en una cita que no era cita, destinados oara toda la vida miamorrr."},
-    {n:"El Morro", lat:23.1516, lng:-82.3562, t:"Nuestro lugarcito seguro, no hay mejor plan que unos snacks y ver la habana mientras hbal9 con el amor de mi vida."}
+    {n:"Monte Freddo", lat:23.1356, lng:-82.3807, t:"En un mapa de las mejores citas no puede faltar Monte Freddo, ya eso no es una cita, es una religión."},
+    {n:"Hotel Nacional", lat:23.1439, lng:-82.3796, t:"Otro lugar al que entramos y nos dicen \"bienvenidos a casa\", ver delfines en una cita que no era cita, destinados para toda la vida, mi amor."},
+    {n:"El Morro", lat:23.1516, lng:-82.3562, t:"Nuestro lugarcito seguro, no hay mejor plan que unos snacks y ver La Habana mientras hablo con el amor de mi vida."}
   ],
   abre: [
-    ["Abre cuando me extrañes", "Cierra los ojos y piensa en nuestro último abrazo. Yo estoy pensando en el mismo.\n\n Ojalá y nunca llegue el dia en el que tenga que extrañarte de verdad, en el que no podamos vernos por mucho tiempo, o simplemente no nos veamos más, no lo podría soportar, te has colado tanto dentro de mi y de mi vida que es imposible no extrañarte, si en algun momento lees esto, que sepas que siempre voy a estar para ti, si lo estas leyendo y son las 2 de la mañana, por favor, llamame, mandame un mensaje, lo que sea, no me extrañes, háblame, jódeme, bésame, abrázame, ámame, la vida es muy corta como para estar extrañandonos."],
-    ["Abre cuando estés triste", "Todo pasa, y yo me quedo. Triste? mi jevita triste? a quien matamos? mi jevita no puede estra triste, mi jevita tiene que ser siempre la mujer más feliz del mundo, arriba esa carita hermosa y sonrie, nunca dejes de sonrerir, tu sonrisa me cura el alma y me dan ganas de sefuir y vivir cada dia a tu lado amor, eres la mejor, y tu jevito siempre va a estar para ayudarte en todos los momentos, en las buenas, en las malas y en las peores."],
-    ["Abre cuando quieras reírte", "Acuérdate de aquella vez que... Que mejor manera de hacerte reir, que recordarte, aquel dia, en casa de mi abuela, que aaaalguien, inocentemente, se tiró un peito, pensando que no iba a ser apestoso, sorpresitaa, tremenda perra petaca🤣, nuestro primer peito juntos mi amor."],
-    ["Abre cuando no puedas dormir", "Cuéntale al techo lo que sea, pero antes lee esto. En realidad este apartado lo creo Claude sin que yo quisiera, cuando no puedas dormir, lo mejor es una pajita, bien riquita, con salsa de pizza, o un palito, no hay mejor opción."],
-    ["Abre cuando dudes de ti", "Eres más de lo que ves. Si en algun momento dudas de ti, recuerda que eres la mujer más inteligente del puto universo, ni Tony Stark se te acerca. Eres la más fuerte (no te has visto los bates), lo heredaste del lafo seguro. La más bonita, eso sin dudas, pero eso lo sabes, con eso si no hay dudas. Y tienes un cuuuuuuuuuuuuuuu.... un culo, sisi tremendo culón."],
+    ["Abre cuando me extrañes", "Cierra los ojos y piensa en nuestro último abrazo. Yo estoy pensando en el mismo.\n\n Ojalá y nunca llegue el día en el que tenga que extrañarte de verdad, en el que no podamos vernos por mucho tiempo, o simplemente no nos veamos más, no lo podría soportar, te has colado tanto dentro de mí y de mi vida que es imposible no extrañarte. Si en algún momento lees esto, que sepas que siempre voy a estar para ti. Si lo estás leyendo y son las 2 de la mañana, por favor, llámame, mándame un mensaje, lo que sea, no me extrañes, háblame, jódeme, bésame, abrázame, ámame, la vida es muy corta como para estar extrañándonos."],
+    ["Abre cuando estés triste", "Todo pasa, y yo me quedo. ¿Triste? ¿Mi jevita triste? ¿A quién matamos? Mi jevita no puede estar triste, mi jevita tiene que ser siempre la mujer más feliz del mundo. Arriba esa carita hermosa y sonríe, nunca dejes de sonreír, tu sonrisa me cura el alma y me dan ganas de seguir y vivir cada día a tu lado, amor. Eres la mejor, y tu jevito siempre va a estar para ayudarte en todos los momentos: en las buenas, en las malas y en las peores."],
+    ["Abre cuando quieras reírte", "Acuérdate de aquella vez que... ¿Qué mejor manera de hacerte reír que recordarte aquel día, en casa de mi abuela, que aaaalguien, inocentemente, se tiró un peito, pensando que no iba a ser apestoso? Sorpresitaa, tremenda perra petaca🤣, nuestro primer peito juntos, mi amor."],
+    ["Abre cuando no puedas dormir", "Cuéntale al techo lo que sea, pero antes lee esto. En realidad este apartado lo creó Claude sin que yo quisiera. Cuando no puedas dormir, lo mejor es una pajita, bien riquita, con salsa de pizza, o un palito, no hay mejor opción."],
+    ["Abre cuando dudes de ti", "Eres más de lo que ves. Si en algún momento dudas de ti, recuerda que eres la mujer más inteligente del puto universo, ni Tony Stark se te acerca. Eres la más fuerte (no te has visto los bates), lo heredaste del lado seguro. La más bonita, eso sin dudas, pero eso lo sabes, con eso sí no hay dudas. Y tienes un cuuuuuuuuuuuuuuu... un culo, sí, sí, tremendo culón."],
     ["Abre cuando quieras un abrazo", "Te mando uno ahora mismo. Siempre que necesites un abrazo, llama a tu jevito, siempre voy a estar disponible para darte un abrazo y hacerte sentir segura, amo abrazarte, es la mejor sensación del mundo."]
   ],
   quiz: [
     {p:"¿Cuál es tu color favorito?", o:["Azul","Rojo","Verde"], c:1},
-    {p:"¿Qué animal te enamora más?", o:["Gatos","Caballos","Perros"], c:2},
+    {p:"¿Qué animal te enamora más?", o:["Gatos","Puerquitos","Perros"], c:2},
     {p:"¿Cuáles son tus flores favoritas?", o:["Girasoles","Rosas y margaritas blancas","Tulipanes"], c:1},
+    {p:"¿Cuál es tu serie favorita?", o:["La que se avecina","Élite","Los hombres de Paco"], c:0},
     {p:"¿Qué día empezó todo?", o:["5 de abril de 2025","14 de febrero de 2025","1 de enero de 2025"], c:0},
     {p:"¿Cuánto te quiero?", o:["Un poquito","Bastante","Más de lo que cabe en esta página"], c:2}
   ],
